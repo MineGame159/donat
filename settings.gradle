@@ -1,1 +1,1 @@
-include "donat"
+include "donat", "example"

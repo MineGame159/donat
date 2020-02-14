@@ -1,0 +1,19 @@
+apply plugin: "application"
+
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDir("src")
+sourceSets.main.resources.srcDir("assets")
+
+mainClassName = group + ".example.Main"
+
+dependencies {
+    implementation project(":donat")
+}
+
+jar {
+    manifest {
+        attributes("Main-Class": mainClassName)
+    }
+
+    from configurations.runtimeClasspath.collect {zipTree(it)}
+}
