@@ -1,0 +1,6 @@
+subprojects {
+    apply plugin: "java"
+
+    group "minegame159"
+    version "0.1"
+}
