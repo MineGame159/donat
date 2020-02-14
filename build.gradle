@@ -3,4 +3,8 @@ subprojects {
 
     group "minegame159"
     version "0.1"
+
+    repositories {
+        mavenCentral()
+    }
 }

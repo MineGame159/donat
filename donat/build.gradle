@@ -4,6 +4,24 @@ sourceCompatibility = 1.8
 sourceSets.main.java.srcDir("src")
 sourceSets.main.resources.srcDir("assets")
 
+project.ext.lwjglVersion = "3.2.2"
+project.ext.jomlVersion = "1.9.19"
+project.ext.lwjglNatives = "natives-windows"
+
+dependencies {
+    implementation "org.joml:joml:${jomlVersion}"
+
+    implementation "org.lwjgl:lwjgl:$lwjglVersion"
+    implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
+    implementation "org.lwjgl:lwjgl-opengl:$lwjglVersion"
+    implementation "org.lwjgl:lwjgl-stb:$lwjglVersion"
+
+    runtimeOnly "org.lwjgl:lwjgl:$lwjglVersion:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-glfw:$lwjglVersion:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-opengl:$lwjglVersion:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:$lwjglNatives"
+}
+
 jar {
     from configurations.runtimeClasspath.collect {zipTree(it)}
 }
