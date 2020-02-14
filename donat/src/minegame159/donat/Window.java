@@ -1,5 +1,6 @@
 package minegame159.donat;
 
+import minegame159.donat.utils.Log;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11C;
@@ -21,7 +22,10 @@ public class Window implements Disposable {
         this.width = width;
         this.height = height;
 
-        GLFW.glfwInit();
+        if (!GLFW.glfwInit()) {
+            Log.MAIN.fatal("Failed to initialize GLFW.");
+            return;
+        }
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         handle = GLFW.glfwCreateWindow(width, height, title, 0, 0);
 
@@ -30,6 +34,7 @@ public class Window implements Disposable {
         GLFW.glfwShowWindow(handle);
 
         GL.createCapabilities();
+        Log.MAIN.info("Created window with size %d x %d.", width, height);
     }
 
     private void setupCallbacks() {

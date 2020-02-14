@@ -4,8 +4,8 @@ sourceCompatibility = 1.8
 sourceSets.main.java.srcDir("src")
 sourceSets.main.resources.srcDir("assets")
 
-project.ext.lwjglVersion = "3.2.2"
 project.ext.jomlVersion = "1.9.19"
+project.ext.lwjglVersion = "3.2.2"
 project.ext.lwjglNatives = "natives-windows"
 
 dependencies {
