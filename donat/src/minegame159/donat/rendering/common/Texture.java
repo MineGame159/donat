@@ -49,6 +49,9 @@ public class Texture implements Disposable {
         data = null;
         stbFreeData = false;
     }
+    public Texture(File file, Filter filter) {
+        this(file, filter, filter);
+    }
 
     public void bind(int slot) {
         glActiveTexture(GL_TEXTURE0 + slot);

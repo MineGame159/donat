@@ -6,7 +6,6 @@ public class IntArray {
 
     public IntArray(int initialSize) {
         items = new int[initialSize];
-        size = initialSize;
     }
 
     /** 8 initial size. */
@@ -41,6 +40,10 @@ public class IntArray {
         return items[i];
     }
 
+    public void clear() {
+        size = 0;
+    }
+
     /** Copies items array if size and capacity are the same. */
     public int[] getArray() {
         if (size == items.length) return items;
@@ -56,6 +59,6 @@ public class IntArray {
     private void setCapacity(int capacity) {
         int[] oldItems = items;
         items = new int[capacity];
-        System.arraycopy(oldItems, 0, items, 0, items.length);
+        System.arraycopy(oldItems, 0, items, 0, oldItems.length);
     }
 }

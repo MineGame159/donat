@@ -6,7 +6,6 @@ public class DoubleArray {
 
     public DoubleArray(int initialSize) {
         items = new double[initialSize];
-        size = initialSize;
     }
 
     /** 8 initial size. */
@@ -41,6 +40,10 @@ public class DoubleArray {
         return items[i];
     }
 
+    public void clear() {
+        size = 0;
+    }
+
     /** Copies items array if size and capacity are the same. */
     public double[] getArray() {
         if (size == items.length) return items;
@@ -56,6 +59,6 @@ public class DoubleArray {
     private void setCapacity(int capacity) {
         double[] oldItems = items;
         items = new double[capacity];
-        System.arraycopy(oldItems, 0, items, 0, items.length);
+        System.arraycopy(oldItems, 0, items, 0, oldItems.length);
     }
 }

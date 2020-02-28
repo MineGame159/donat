@@ -6,7 +6,6 @@ public class FloatArray {
 
     public FloatArray(int initialSize) {
         items = new float[initialSize];
-        size = initialSize;
     }
 
     /** 8 initial size. */
@@ -15,7 +14,7 @@ public class FloatArray {
     }
 
     public void add(float value) {
-        if (size + 1 >= items.length) setCapacity((int) Math.round(items.length * 1.75));
+        if (size >= items.length) setCapacity((int) Math.round(items.length * 1.75));
         items[size++] = value;
     }
 
@@ -41,6 +40,10 @@ public class FloatArray {
         return items[i];
     }
 
+    public void clear() {
+        size = 0;
+    }
+
     /** Copies items array if size and capacity are the same. */
     public float[] getArray() {
         if (size == items.length) return items;
@@ -56,6 +59,6 @@ public class FloatArray {
     private void setCapacity(int capacity) {
         float[] oldItems = items;
         items = new float[capacity];
-        System.arraycopy(oldItems, 0, items, 0, items.length);
+        System.arraycopy(oldItems, 0, items, 0, oldItems.length);
     }
 }
