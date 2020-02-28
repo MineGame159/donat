@@ -3,7 +3,9 @@ package minegame159.donat;
 import minegame159.donat.utils.Log;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11C;
+import org.lwjgl.opengl.GL33C;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 public class Window implements Disposable {
     private String title;
@@ -22,16 +24,25 @@ public class Window implements Disposable {
         this.width = width;
         this.height = height;
 
-        if (!GLFW.glfwInit()) {
+        if (!glfwInit()) {
             Log.MAIN.fatal("Failed to initialize GLFW.");
             return;
         }
-        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
-        handle = GLFW.glfwCreateWindow(width, height, title, 0, 0);
+
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        handle = glfwCreateWindow(width, height, title, 0, 0);
+
+        if (handle == 0) {
+            Log.MAIN.fatal("Failed to create window.");
+            return;
+        }
 
         setupCallbacks();
-        GLFW.glfwMakeContextCurrent(handle);
-        GLFW.glfwShowWindow(handle);
+        glfwMakeContextCurrent(handle);
+        glfwShowWindow(handle);
 
         GL.createCapabilities();
         Log.MAIN.info("Created window with size %d x %d.", width, height);
@@ -39,27 +50,27 @@ public class Window implements Disposable {
 
     private void setupCallbacks() {
         // Window Size
-        GLFW.glfwSetWindowSizeCallback(handle, (window, width1, height1) -> {
+        glfwSetWindowSizeCallback(handle, (window, width1, height1) -> {
             if (width1 != width || height1 != height) {
                 width = width1;
                 height = height1;
-                GL11C.glViewport(0, 0, width1, height1);
+                GL33C.glViewport(0, 0, width1, height1);
             }
         });
     }
 
     public boolean shouldClose() {
-        return GLFW.glfwWindowShouldClose(handle);
+        return glfwWindowShouldClose(handle);
     }
     public void close() {
-        GLFW.glfwSetWindowShouldClose(handle, true);
+        glfwSetWindowShouldClose(handle, true);
     }
 
     public void pollEvents() {
-        GLFW.glfwPollEvents();
+        glfwPollEvents();
     }
     public void swapBuffers() {
-        GLFW.glfwSwapBuffers(handle);
+        glfwSwapBuffers(handle);
     }
 
     public String getTitle() {
@@ -79,6 +90,6 @@ public class Window implements Disposable {
 
     @Override
     public void dispose() {
-        GLFW.glfwDestroyWindow(handle);
+        glfwDestroyWindow(handle);
     }
 }
