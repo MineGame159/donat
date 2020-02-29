@@ -48,8 +48,7 @@ public class TestApp extends Application {
 
         texture.bind();
         DefaultShaders.texture.bind();
-        DefaultShaders.texture.setUniformMat4("u_Projection", camera.getProjection());
-        DefaultShaders.texture.setUniformMat4("u_View", camera.getView());
+        DefaultShaders.texture.setUniformProjectionView(camera);
         DefaultShaders.texture.setUniformTexture("u_Texture", texture);
         mesh.render();
     }

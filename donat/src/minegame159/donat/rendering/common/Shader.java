@@ -97,6 +97,12 @@ public class Shader implements Disposable {
         setUniformi(name, texture.getBoundToSlot());
     }
 
+    /** Sets mat4 u_Projection and mat4 u_View */
+    public void setUniformProjectionView(Camera camera) {
+        setUniformMat4("u_Projection", camera.getProjection());
+        setUniformMat4("u_View", camera.getView());
+    }
+
     public void bind() {
         glUseProgram(handle);
     }
