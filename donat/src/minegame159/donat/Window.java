@@ -1,5 +1,6 @@
 package minegame159.donat;
 
+import minegame159.donat.events.input.WindowResizedEvent;
 import minegame159.donat.utils.Log;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
@@ -12,6 +13,8 @@ public class Window implements Disposable {
     private int width, height;
 
     private long handle;
+
+    private WindowResizedEvent windowResizedEvent = new WindowResizedEvent();
 
     /**
      * Creates new window.
@@ -55,6 +58,9 @@ public class Window implements Disposable {
                 width = width1;
                 height = height1;
                 GL33C.glViewport(0, 0, width1, height1);
+                windowResizedEvent.width = width1;
+                windowResizedEvent.height = height1;
+                Application.eventBus.post(windowResizedEvent);
             }
         });
     }
