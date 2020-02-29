@@ -9,16 +9,42 @@ public class MeshBuilder {
     private IntArray indices;
     public final VertexAttribute[] vertexAttributes;
     private int vertexCount;
+    private int vertexComponentCount;
 
     public MeshBuilder(int initialVerticesCount, int initialIndicesCount, VertexAttribute... vertexAttributes) {
-        int vertexCount = 0;
-        for (VertexAttribute vertexAttribute : vertexAttributes) vertexCount += vertexAttribute.getComponentSize();
-        vertices = new FloatArray(initialVerticesCount * vertexCount);
+        for (VertexAttribute vertexAttribute : vertexAttributes) vertexComponentCount += vertexAttribute.getComponentSize();
+        vertices = new FloatArray(initialVerticesCount * vertexComponentCount);
         indices = new IntArray(initialIndicesCount);
         this.vertexAttributes = vertexAttributes;
     }
     public MeshBuilder(VertexAttribute... vertexAttributes) {
         this(4, 6, vertexAttributes);
+    }
+
+    /** Throws {@link IllegalArgumentException} if vertex attributes don't match. */
+    public MeshBuilder add(MeshBuilder mb) {
+        if (vertexAttributes.length != mb.vertexAttributes.length) throw new IllegalArgumentException("Vertex attributes don't match");
+        for (int i = 0; i < vertexAttributes.length; i++) {
+            if (!vertexAttributes[i].equals(mb.vertexAttributes[i])) throw new IllegalArgumentException("Vertex attributes don't match");
+        }
+
+        vertices.add(mb.vertices);
+        indices.add(mb.indices);
+        vertexCount += mb.vertices.size / vertexComponentCount;
+        return this;
+    }
+
+    /** Throws {@link IllegalArgumentException} if vertex attributes don't match. */
+    public MeshBuilder add(Mesh mesh) {
+        if (vertexAttributes.length != mesh.vertexAttributes.length) throw new IllegalArgumentException("Vertex attributes don't match");
+        for (int i = 0; i < vertexAttributes.length; i++) {
+            if (!vertexAttributes[i].equals(mesh.vertexAttributes[i])) throw new IllegalArgumentException("Vertex attributes don't match");
+        }
+
+        vertices.add(mesh.vertices);
+        indices.add(mesh.indices);
+        vertexCount += mesh.vertices.size / vertexComponentCount;
+        return this;
     }
 
     public MeshBuilder pos(float x, float y, float z) {

@@ -1,5 +1,7 @@
 package minegame159.donat.math;
 
+import java.util.Objects;
+
 public class Vector2 {
     public static final Vector2 ZERO = new Vector2();
 
@@ -92,5 +94,24 @@ public class Vector2 {
         x /= vector.x;
         y /= vector.y;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return x + ", " + y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector2 vector2 = (Vector2) o;
+        return Float.compare(vector2.x, x) == 0 &&
+                Float.compare(vector2.y, y) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

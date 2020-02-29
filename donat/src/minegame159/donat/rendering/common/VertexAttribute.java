@@ -1,5 +1,7 @@
 package minegame159.donat.rendering.common;
 
+import java.util.Objects;
+
 public class VertexAttribute {
     private int componentSize;
     private boolean normalized;
@@ -13,13 +15,25 @@ public class VertexAttribute {
         this(componentSize, false);
     }
 
-    // Getters and Setters
-
     public int getComponentSize() {
         return componentSize;
     }
 
     public boolean isNormalized() {
         return normalized;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VertexAttribute that = (VertexAttribute) o;
+        return componentSize == that.componentSize &&
+                normalized == that.normalized;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(componentSize, normalized);
     }
 }
