@@ -11,6 +11,7 @@ public class Mesh implements Disposable {
     public FloatArray vertices;
     public IntArray indices;
     public final VertexAttribute[] vertexAttributes;
+    private int indicesCount;
 
     public Mesh(FloatArray vertices, IntArray indices, VertexAttribute... vertexAttributes) {
         this.vertices = vertices;
@@ -31,6 +32,7 @@ public class Mesh implements Disposable {
         iboHandle = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.getArray(), GL_STATIC_DRAW);
+        indicesCount = indices.size;
     }
 
     private void calculateVertexAttributes() {
@@ -51,17 +53,18 @@ public class Mesh implements Disposable {
     public void render() {
         glBindVertexArray(vaoHandle);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
-        glDrawElements(GL_TRIANGLES, indices.size, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
     }
 
     public void updateVertices() {
-        glBindBuffer(GL_VERTEX_ARRAY, vboHandle);
+        glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
         glBufferData(GL_ARRAY_BUFFER, vertices.getArray(), GL_STATIC_DRAW);
     }
 
     public void updateIndices() {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.getArray(), GL_STATIC_DRAW);
+        indicesCount = indices.size;
     }
 
     @Override

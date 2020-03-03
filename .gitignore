@@ -3,3 +3,7 @@
 
 donat/build
 donat/out
+
+example/build
+example/out
+example/example.cap

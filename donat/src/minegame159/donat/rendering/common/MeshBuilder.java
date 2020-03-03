@@ -77,7 +77,7 @@ public class MeshBuilder {
         return color(color.r, color.g, color.b, color.a);
     }
 
-    public int endVertex() {
+    public int end() {
         return vertexCount++;
     }
 

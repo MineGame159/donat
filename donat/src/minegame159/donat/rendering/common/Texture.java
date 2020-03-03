@@ -6,6 +6,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBImage;
 
 import java.nio.ByteBuffer;
+import java.util.Objects;
 
 import static org.lwjgl.opengl.GL33C.*;
 
@@ -100,6 +101,37 @@ public class Texture implements Disposable {
     }
     public Filter getMagFilter() {
         return magFilter;
+    }
+
+    public static class Region {
+        public final Texture texture;
+        public final float x, y;
+        public final float width, height;
+
+        public Region(Texture texture, float x, float y, float width, float height) {
+            this.texture = texture;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Region region = (Region) o;
+            return Float.compare(region.x, x) == 0 &&
+                    Float.compare(region.y, y) == 0 &&
+                    Float.compare(region.width, width) == 0 &&
+                    Float.compare(region.height, height) == 0 &&
+                    Objects.equals(texture, region.texture);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(texture, x, y, width, height);
+        }
     }
 
     public enum Filter {
