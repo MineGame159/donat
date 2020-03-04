@@ -15,7 +15,7 @@ public class Input {
     private static boolean[] buttons = new boolean[8];
     private static boolean[] lastButtons = new boolean[8];
 
-    public static void init() {
+    static void init() {
         Application.eventBus.subscribeAll(onKeyPressed, onKeyReleased, onMouseMoved, onMouseButtonPressed, onMouseButtonReleased);
     }
 
@@ -40,7 +40,7 @@ public class Input {
         buttons[event.button] = false;
     }, EventPriority.HIGHEST + 1);
 
-    public static void update() {
+    static void update() {
         lastMouseX = mouseX;
         lastMouseY = mouseY;
 
