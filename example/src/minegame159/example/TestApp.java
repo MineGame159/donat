@@ -7,13 +7,13 @@ import minegame159.donat.events.input.WindowResizedEvent;
 import minegame159.donat.filesystem.InternalFile;
 import minegame159.donat.rendering.common.Texture;
 import minegame159.donat.rendering.d2.Camera2D;
-import minegame159.donat.rendering.d2.SpriteBatch;
+import minegame159.donat.rendering.d2.SpriteCache;
 import org.lwjgl.opengl.GL33C;
 
 public class TestApp extends Application {
     private Camera2D camera;
     private Texture texture;
-    private SpriteBatch batch;
+    private SpriteCache cache;
 
     public TestApp() {
         super("Test App", 640, 480);
@@ -21,7 +21,11 @@ public class TestApp extends Application {
 
         camera = new Camera2D(window.getWidth(), window.getHeight());
         texture = new Texture(new InternalFile("minegame159/donat/donat.png"), Texture.Filter.Nearest);
-        batch = new SpriteBatch();
+        cache = new SpriteCache();
+
+        cache.begin();
+        cache.add(texture, 0, 0, 64, 64, 0);
+        cache.end();
     }
 
     @EventHandler
@@ -38,14 +42,12 @@ public class TestApp extends Application {
     public void render(double deltaTime) {
         GL33C.glClear(GL33C.GL_COLOR_BUFFER_BIT);
 
-        batch.begin(camera);
-        batch.render(texture, 0, 0, 64, 64, 32, 32, 45);
-        batch.end();
+        cache.render(camera);
     }
 
     @Override
     public void dispose() {
         texture.dispose();
-        batch.dispose();
+        cache.dispose();
     }
 }

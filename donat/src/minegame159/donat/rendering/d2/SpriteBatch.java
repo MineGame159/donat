@@ -17,6 +17,7 @@ public class SpriteBatch implements Disposable {
     private List<Batch> batchesToRender = new ArrayList<>(1);
     private Camera2D camera;
     private int drawCalls;
+
     private Matrix4f transform = new Matrix4f();
     private Vector3f pos1 = new Vector3f();
     private Vector3f pos2 = new Vector3f();
@@ -65,6 +66,7 @@ public class SpriteBatch implements Disposable {
     @Override
     public void dispose() {
         for (Batch batch : batches.values()) batch.dispose();
+        batches.clear();
     }
 
     public int getDrawCalls() {
