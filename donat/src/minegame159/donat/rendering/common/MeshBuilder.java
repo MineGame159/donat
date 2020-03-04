@@ -47,6 +47,14 @@ public class MeshBuilder {
         return this;
     }
 
+    public MeshBuilder value(float value) {
+        vertices.add(value);
+        return this;
+    }
+    public MeshBuilder value(double value) {
+        return value((float) value);
+    }
+
     public MeshBuilder pos(float x, float y, float z) {
         vertices.add(x);
         vertices.addAll(y, z);

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SpriteBatch implements Disposable {
-    public Shader shader = DefaultShaders.texture;
+    public Shader shader = DefaultShaders.TEXTURE;
 
     private Map<Texture, Batch> batches = new HashMap<>(1);
     private List<Batch> batchesToRender = new ArrayList<>(1);

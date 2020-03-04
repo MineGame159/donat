@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SpriteCache implements Disposable {
-    public Shader shader = DefaultShaders.texture;
+    public Shader shader = DefaultShaders.TEXTURE;
 
     private Map<Texture, Cache> caches = new HashMap<>(1);
     private List<Cache> cachesToRender = new ArrayList<>(1);
