@@ -1,6 +1,6 @@
 package minegame159.donat;
 
-import minegame159.donat.events.input.WindowResizedEvent;
+import minegame159.donat.events.input.*;
 import minegame159.donat.utils.Log;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
@@ -15,6 +15,13 @@ public class Window implements Disposable {
     private long handle;
 
     private WindowResizedEvent windowResizedEvent = new WindowResizedEvent();
+    private KeyPressedEvent keyPressedEvent = new KeyPressedEvent();
+    private KeyReleasedEvent keyReleasedEvent = new KeyReleasedEvent();
+    private CharTypedEvent charTypedEvent = new CharTypedEvent();
+    private MouseMovedEvent mouseMovedEvent = new MouseMovedEvent();
+    private MouseButtonPressedEvent mouseButtonPressedEvent = new MouseButtonPressedEvent();
+    private MouseButtonReleasedEvent mouseButtonReleasedEvent = new MouseButtonReleasedEvent();
+    private MouseScrolledEvent mouseScrolledEvent = new MouseScrolledEvent();
 
     /**
      * Creates new window.
@@ -58,10 +65,65 @@ public class Window implements Disposable {
                 width = width1;
                 height = height1;
                 GL33C.glViewport(0, 0, width1, height1);
+                windowResizedEvent.setCancelled(false);
                 windowResizedEvent.width = width1;
                 windowResizedEvent.height = height1;
                 Application.eventBus.post(windowResizedEvent);
             }
+        });
+
+        // Key Pressed / Released
+        glfwSetKeyCallback(handle, (window, key, scancode, action, mods) -> {
+            if (action == GLFW_PRESS) {
+                keyPressedEvent.setCancelled(false);
+                keyPressedEvent.key = key;
+                keyPressedEvent.scancode = scancode;
+                keyPressedEvent.mods = mods;
+                Application.eventBus.post(keyPressedEvent);
+            } else if (action == GLFW_RELEASE) {
+                keyReleasedEvent.setCancelled(false);
+                keyReleasedEvent.key = key;
+                keyReleasedEvent.scancode = scancode;
+                keyReleasedEvent.mods = mods;
+                Application.eventBus.post(keyReleasedEvent);
+            }
+        });
+
+        // Char Typed
+        glfwSetCharCallback(handle, (window, codepoint) -> {
+            charTypedEvent.setCancelled(false);
+            charTypedEvent.codepoint = codepoint;
+            Application.eventBus.post(charTypedEvent);
+        });
+
+        // Mouse Moved
+        glfwSetCursorPosCallback(handle, (window, xpos, ypos) -> {
+            mouseMovedEvent.setCancelled(false);
+            mouseMovedEvent.x = xpos;
+            mouseMovedEvent.y = ypos;
+            Application.eventBus.post(mouseMovedEvent);
+        });
+
+        // Mouse Button Pressed / Released
+        glfwSetMouseButtonCallback(handle, (window, button, action, mods) -> {
+            if (action == GLFW_PRESS) {
+                mouseButtonPressedEvent.setCancelled(false);
+                mouseButtonPressedEvent.button = button;
+                mouseButtonPressedEvent.mods = mods;
+                Application.eventBus.post(mouseButtonPressedEvent);
+            } else if (action == GLFW_RELEASE) {
+                mouseButtonReleasedEvent.setCancelled(false);
+                mouseButtonReleasedEvent.button = button;
+                mouseButtonReleasedEvent.mods = mods;
+                Application.eventBus.post(mouseButtonReleasedEvent);
+            }
+        });
+
+        // Mouse Scrolled
+        glfwSetScrollCallback(handle, (window, xoffset, yoffset) -> {
+            mouseScrolledEvent.setCancelled(false);
+            mouseScrolledEvent.value = yoffset;
+            Application.eventBus.post(mouseScrolledEvent);
         });
     }
 
