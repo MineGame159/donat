@@ -12,6 +12,7 @@ public abstract class Application implements Disposable, Listenable {
 
     public Application(String title, int width, int height) {
         window = new Window(title, width, height);
+        Input.init();
     }
 
     public abstract void update(double deltaTime);
@@ -43,6 +44,7 @@ public abstract class Application implements Disposable, Listenable {
                 update(deltaTime);
                 render(deltaTime);
                 window.swapBuffers();
+                Input.update();
             }
 
             try {
